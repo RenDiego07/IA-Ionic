@@ -1,24 +1,24 @@
-import { Injectable, inject } from '@angular/core';
-
-import { Firestore, collection, addDoc, collectionData, CollectionReference} from '@angular/fire/firestore';
+import { Firestore, collection, query, collectionData, addDoc} from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
+import { Injectable, inject } from '@angular/core';
+
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProviderService {
-    firestoreService = inject(Firestore);
-    constructor() { }
+  firestoreService = inject(Firestore);
 
-createDocument(collectionName: string, data: any): Promise<any> {
-  const colRef: CollectionReference = collection(this.firestoreService, collectionName) as CollectionReference;
-  return addDoc(colRef, data);
+  constructor() {}
+
+  createDocument(collectionName: string, data: any): Promise<any> {
+    const colRef = collection(this.firestoreService, collectionName); // Crear referencia a la colección
+    return addDoc(colRef, data);
+  }
+  readCollection(collectionName: string): Observable<any[]> {
+    const colRef = collection(this.firestoreService, collectionName);
+    return collectionData(colRef, { idField: 'id' });
 }
-
-readCollection(collectionName: string): Observable<any[]> {
-  const colRef: CollectionReference = collection(this.firestoreService, collectionName) as CollectionReference;
-  return collectionData(colRef, { idField: 'id' });
-}
-
 
 }
