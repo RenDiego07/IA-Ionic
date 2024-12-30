@@ -71,3 +71,4 @@ Thumbs.db
 # Database credentials
  /src/credentials.ts
  
+ www/
