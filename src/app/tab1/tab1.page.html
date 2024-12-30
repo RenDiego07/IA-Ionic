@@ -12,18 +12,37 @@
       <ion-title size="large">Teachable Machine</ion-title>
     </ion-toolbar>
   </ion-header>
-      @if(imageReady()) {
-        <ion-card class="imgHolder">
+  @if(imageReady()) {
+  <ion-card class="imgHolder">
+    <!-- Identificador #image -->
+    <img [src]="imageUrl()" alt="Imagen seleccionada" #image />
 
-          <img [src]="imageUrl()" alt="Imagen seleccionada" />
-        
-          <!-- CARGA DE PREDICCIÓN - INICIO -->
-        
-          <!-- CARGA DE PREDICCIÓN - FIN -->
+    <!-- CARGA DE PREDICCIÓN - INICIO -->
+    @if(modelLoaded()) {
 
-        </ion-card>
+    <div class="ion-text-center ion-padding-top ion-padding-bottom">
+      <ion-button fill="outline" color="success" (click)="predict()">Predecir</ion-button>
+    </div>
+
+    <ion-list>
+      <ion-item>
+        <ion-label>Clases: {{ classLabels }} </ion-label>
+      </ion-item>
+      <!-- Itere sobre la lista de predicciones -->
+      @for (item of predictions; track $index) {
+      <ion-item>
+        <ion-label> {{ item?.className }} : {{ item?.probability | percent }} </ion-label>
+      </ion-item>
       }
-      <!-- CARGA DE IMAGEN - FIN -->      
+
+    </ion-list>
+
+    }
+    <!-- CARGA DE PREDICCIÓN - FIN -->
+
+  </ion-card>
+  }
+  <!-- CARGA DE IMAGEN - FIN -->
 
   <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
 
